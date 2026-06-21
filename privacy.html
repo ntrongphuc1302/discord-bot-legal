@@ -20,22 +20,47 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --discord-blurple: #5865F2;
-      --discord-blurple-hover: #4752c4;
-      --discord-dark: #313338;
-      --accent: #5b64e9;
-      --accent-light: #eeedfd;
-      --bg-base: #f8f9fa;
+      --bg-base: #f0f1f5;
       --bg-card: #ffffff;
+      --bg-section: #f1f2f5;
       --text-primary: #1a1d21;
       --text-secondary: #4e5058;
       --text-muted: #7c7f8c;
       --border: #e3e5e8;
+      --accent: #5b64e9;
+      --accent-light: #eef0ff;
+      --accent-glow: rgba(91,100,233,.15);
       --radius: 10px;
       --radius-lg: 16px;
       --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
       --shadow-md: 0 4px 12px rgba(0,0,0,.08), 0 2px 4px rgba(0,0,0,.05);
       --shadow-lg: 0 10px 30px rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.06);
+      --note-bg: #fefce8;
+      --note-border: #fde68a;
+      --note-text: #92400e;
+      --contact-bg: #f5f3ff;
+      --contact-border: #ddd6fe;
+    }
+
+    [data-theme="dark"] {
+      --bg-base: #0d0d10;
+      --bg-card: #141418;
+      --bg-section: #1a1a20;
+      --text-primary: #f5f6f8;
+      --text-secondary: #a8aab0;
+      --text-muted: #6d7079;
+      --border: #2a2b30;
+      --accent: #6e7aff;
+      --accent-light: #1e2035;
+      --accent-glow: rgba(110,122,255,.2);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.3);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.4), 0 2px 4px rgba(0,0,0,.3);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,.5), 0 4px 8px rgba(0,0,0,.4);
+      --note-bg: #2d2010;
+      --note-border: #5c3a0a;
+      --note-text: #f59e0b;
+      --contact-bg: #1a1730;
+      --contact-border: #312e5a;
     }
 
     html { scroll-behavior: smooth; }
@@ -46,17 +71,18 @@
       color: var(--text-primary);
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
+      transition: background .3s, color .3s;
     }
 
-    /* ── HEADER ── */
     .site-header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(255,255,255,.88);
+      background: color-mix(in srgb, var(--bg-card) 88%, transparent);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
+      transition: background .3s, border-color .3s;
     }
 
     .header-inner {
@@ -69,7 +95,19 @@
       justify-content: space-between;
     }
 
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-primary); }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
 
     .logo-icon {
       width: 36px;
@@ -83,12 +121,48 @@
       font-size: 18px;
       color: #fff;
       letter-spacing: -0.5px;
+      box-shadow: 0 0 16px var(--accent-glow);
+      transition: box-shadow .3s;
     }
 
     .logo-text { font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
-    .logo-sub { font-weight: 500; font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+    .logo-sub { font-weight: 500; font-size: 12px; color: var(--text-muted); margin-top: 1px; transition: color .3s; }
 
-    .header-nav { display: flex; align-items: center; gap: 6px; }
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-section);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px;
+      transition: background .3s, border-color .3s;
+    }
+
+    .theme-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 99px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      color: var(--text-muted);
+      transition: background .2s, color .2s;
+    }
+
+    .theme-btn:hover { color: var(--text-primary); }
+    .theme-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    .theme-btn svg { width: 16px; height: 16px; }
+
+    .header-nav { display: flex; align-items: center; gap: 4px; }
 
     .nav-link {
       text-decoration: none;
@@ -100,10 +174,9 @@
       transition: background .15s, color .15s;
     }
 
-    .nav-link:hover { background: #f1f2f5; color: var(--text-primary); }
+    .nav-link:hover { background: var(--bg-section); color: var(--text-primary); }
     .nav-link.active { background: var(--accent-light); color: var(--accent); }
 
-    /* ── PAGE HERO ── */
     .page-hero {
       padding: 64px 24px 48px;
       text-align: center;
@@ -130,6 +203,7 @@
       letter-spacing: -1.2px;
       color: var(--text-primary);
       margin-bottom: 12px;
+      transition: color .3s;
     }
 
     .page-hero p {
@@ -138,6 +212,7 @@
       max-width: 500px;
       margin: 0 auto;
       line-height: 1.6;
+      transition: color .3s;
     }
 
     .updated-badge {
@@ -148,14 +223,15 @@
       font-size: 12px;
       font-weight: 600;
       color: var(--text-muted);
-      background: #f1f2f5;
+      background: var(--bg-section);
       padding: 5px 12px;
       border-radius: 99px;
+      border: 1px solid var(--border);
+      transition: background .3s, color .3s, border-color .3s;
     }
 
     .updated-badge svg { width: 12px; height: 12px; }
 
-    /* ── TABLE OF CONTENTS ── */
     .toc {
       max-width: 800px;
       margin: 0 auto;
@@ -168,6 +244,7 @@
       border-radius: var(--radius-lg);
       padding: 24px 28px;
       box-shadow: var(--shadow-sm);
+      transition: background .3s, border-color .3s;
     }
 
     .toc-title {
@@ -177,6 +254,7 @@
       letter-spacing: 0.8px;
       color: var(--text-muted);
       margin-bottom: 16px;
+      transition: color .3s;
     }
 
     .toc-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
@@ -194,7 +272,7 @@
       transition: background .15s, color .15s;
     }
 
-    .toc-list a:hover { background: #f1f2f5; color: var(--text-primary); }
+    .toc-list a:hover { background: var(--bg-section); color: var(--text-primary); }
 
     .toc-num {
       width: 22px;
@@ -208,9 +286,9 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: background .3s, color .3s;
     }
 
-    /* ── SECTIONS ── */
     .legal-content {
       max-width: 800px;
       margin: 0 auto;
@@ -226,6 +304,7 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
+      transition: background .3s, border-color .3s;
     }
 
     .legal-block-header {
@@ -234,7 +313,8 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      background: #fafafa;
+      background: color-mix(in srgb, var(--bg-section) 60%, var(--bg-card));
+      transition: background .3s, border-color .3s;
     }
 
     .icon {
@@ -248,26 +328,16 @@
     }
 
     .icon svg { width: 18px; height: 18px; }
-
     .legal-block-header h3 { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; }
-    .legal-block-header .updated { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-left: auto; white-space: nowrap; }
+    .legal-block-header .updated { font-size: 12px; color: var(--text-muted); font-weight: 400; margin-left: auto; white-space: nowrap; transition: color .3s; }
 
     .legal-block-body { padding: 28px; }
 
-    .legal-block-body p {
-      font-size: 14.5px;
-      color: var(--text-secondary);
-      margin-bottom: 12px;
-      line-height: 1.7;
-    }
-
+    .legal-block-body p { font-size: 14.5px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.7; transition: color .3s; }
     .legal-block-body p:last-child { margin-bottom: 0; }
     .legal-block-body p strong { color: var(--text-primary); font-weight: 600; }
 
-    .legal-block-body ul {
-      list-style: none;
-      margin: 10px 0 16px;
-    }
+    .legal-block-body ul { list-style: none; margin: 10px 0 16px; }
 
     .legal-block-body ul li {
       position: relative;
@@ -276,6 +346,7 @@
       color: var(--text-secondary);
       margin-bottom: 9px;
       line-height: 1.65;
+      transition: color .3s;
     }
 
     .legal-block-body ul li::before {
@@ -298,24 +369,26 @@
       padding: 2px 6px;
       border-radius: 4px;
       font-size: 13px;
+      transition: background .3s, color .3s;
     }
 
     .note {
-      background: #fefce8;
-      border: 1px solid #fde68a;
+      background: var(--note-bg);
+      border: 1px solid var(--note-border);
       border-radius: 8px;
       padding: 12px 16px;
       font-size: 13.5px;
-      color: #92400e;
+      color: var(--note-text);
       margin-top: 12px;
+      transition: background .3s, border-color .3s, color .3s;
     }
 
     .note strong { font-weight: 700; }
 
-    /* ── FOOTER ── */
     .site-footer {
       border-top: 1px solid var(--border);
-      background: #fff;
+      background: var(--bg-card);
+      transition: background .3s, border-color .3s;
     }
 
     .footer-inner {
@@ -342,18 +415,19 @@
       font-weight: 800;
       font-size: 14px;
       color: #fff;
+      box-shadow: 0 0 12px var(--accent-glow);
+      transition: box-shadow .3s;
     }
 
-    .footer-brand-text { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-    .footer-brand-sub { font-size: 12px; color: var(--text-muted); }
+    .footer-brand-text { font-size: 14px; font-weight: 600; color: var(--text-primary); transition: color .3s; }
+    .footer-brand-sub { font-size: 12px; color: var(--text-muted); transition: color .3s; }
 
     .footer-links { display: flex; align-items: center; gap: 20px; }
     .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color .15s; }
     .footer-links a:hover { color: var(--accent); }
 
-    .footer-copyright { font-size: 12px; color: var(--text-muted); }
+    .footer-copyright { font-size: 12px; color: var(--text-muted); transition: color .3s; }
 
-    /* ── SCROLL TO TOP ── */
     .scroll-top {
       position: fixed;
       bottom: 24px;
@@ -368,7 +442,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: var(--shadow-md);
+      box-shadow: 0 4px 12px var(--accent-glow);
       opacity: 0;
       transform: translateY(10px);
       transition: opacity .2s, transform .2s, background .15s;
@@ -376,10 +450,9 @@
     }
 
     .scroll-top.visible { opacity: 1; transform: translateY(0); }
-    .scroll-top:hover { background: var(--discord-blurple-hover); }
+    .scroll-top:hover { background: #5b5ae0; }
     .scroll-top svg { width: 18px; height: 18px; }
 
-    /* ── MOBILE ── */
     @media (max-width: 600px) {
       .header-nav { display: none; }
       .legal-block-body { padding: 20px; }
@@ -387,7 +460,6 @@
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
 
-    /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -399,7 +471,7 @@
     .delay-3 { animation-delay: .3s; }
   </style>
 </head>
-<body>
+<body data-theme="dark">
 
   <!-- HEADER -->
   <header class="site-header">
@@ -411,12 +483,22 @@
           <div class="logo-sub">Discord Bot</div>
         </div>
       </a>
-      <nav class="header-nav">
-        <a href="index.html" class="nav-link">Legal</a>
-        <a href="tos.html" class="nav-link">Terms of Service</a>
-        <a href="privacy.html" class="nav-link active">Privacy Policy</a>
-        <a href="https://discord.com/oauth2/authorize?client_id=1518214002340003930" class="nav-link" target="_blank" rel="noopener">Add to Server</a>
-      </nav>
+      <div class="header-left">
+        <div class="theme-toggle">
+          <button class="theme-btn active" id="btn-dark" aria-label="Dark theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <button class="theme-btn" id="btn-light" aria-label="Light theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+        </div>
+        <nav class="header-nav">
+          <a href="index.html" class="nav-link">Legal</a>
+          <a href="tos.html" class="nav-link">Terms of Service</a>
+          <a href="privacy.html" class="nav-link active">Privacy Policy</a>
+          <a href="https://discord.com/oauth2/authorize?client_id=1518214002340003930" class="nav-link" target="_blank" rel="noopener">Add to Server</a>
+        </nav>
+      </div>
     </div>
   </header>
 
@@ -451,13 +533,10 @@
 
   <!-- CONTENT -->
   <div class="legal-content">
-
     <div class="legal-block animate-in delay-2" id="section-1">
       <div class="legal-block-header">
-        <div class="icon" style="background:#e0f2fe">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
+        <div class="icon" style="background:color-mix(in srgb, #0284c7 12%, var(--bg-card))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         </div>
         <h3>1. Data We Access and Collect</h3>
         <span class="updated">Jun 21, 2026</span>
@@ -469,18 +548,14 @@
           <li><strong>Server Identifiers:</strong> Server (Guild) IDs, Channel IDs, and Role IDs used for server-specific functionality.</li>
           <li><strong>Command Content:</strong> The content of commands you explicitly send to the Bot to process your requests.</li>
         </ul>
-        <div class="note">
-          <strong>Important:</strong> The Bot does not log, read, or store your private personal conversations or messages unrelated to the Bot's specific commands.
-        </div>
+        <div class="note"><strong>Important:</strong> The Bot does not log, read, or store your private personal conversations or messages unrelated to the Bot's specific commands.</div>
       </div>
     </div>
 
     <div class="legal-block animate-in delay-2" id="section-2">
       <div class="legal-block-header">
-        <div class="icon" style="background:#eef9f1">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-          </svg>
+        <div class="icon" style="background:color-mix(in srgb, #16a34a 12%, var(--bg-card))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         </div>
         <h3>2. How We Use the Data</h3>
         <span class="updated">Jun 21, 2026</span>
@@ -499,10 +574,8 @@
 
     <div class="legal-block animate-in delay-2" id="section-3">
       <div class="legal-block-header">
-        <div class="icon" style="background:#fef3c7">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-          </svg>
+        <div class="icon" style="background:color-mix(in srgb, #d97706 12%, var(--bg-card))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
         </div>
         <h3>3. Data Storage and Sharing</h3>
         <span class="updated">Jun 21, 2026</span>
@@ -515,10 +588,8 @@
 
     <div class="legal-block animate-in delay-3" id="section-4">
       <div class="legal-block-header">
-        <div class="icon" style="background:#fce7f3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-          </svg>
+        <div class="icon" style="background:color-mix(in srgb, #db2777 12%, var(--bg-card))">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
         </div>
         <h3>4. Data Deletion</h3>
         <span class="updated">Jun 21, 2026</span>
@@ -535,10 +606,8 @@
 
     <div class="legal-block animate-in delay-3" id="section-5">
       <div class="legal-block-header">
-        <div class="icon" style="background:#eeedfd">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#5b64e9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
+        <div class="icon" style="background:var(--accent-light)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
         <h3>5. Agreement</h3>
         <span class="updated">Jun 21, 2026</span>
@@ -548,7 +617,6 @@
         <p>We encourage you to periodically review this page for the latest information on our privacy practices. Your continued use of the Bot after any changes to this policy constitutes acceptance of those changes.</p>
       </div>
     </div>
-
   </div>
 
   <!-- FOOTER -->
@@ -573,17 +641,40 @@
 
   <!-- SCROLL TO TOP -->
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
   <script>
-    const btn = document.getElementById('scrollTop');
+    const btnDark = document.getElementById('btn-dark');
+    const btnLight = document.getElementById('btn-light');
+    const body = document.body;
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        body.setAttribute('data-theme', 'dark');
+        btnDark.classList.add('active');
+        btnLight.classList.remove('active');
+        localStorage.setItem('pxzero-theme', 'dark');
+      } else {
+        body.removeAttribute('data-theme');
+        btnLight.classList.add('active');
+        btnDark.classList.remove('active');
+        localStorage.setItem('pxzero-theme', 'light');
+      }
+    }
+
+    const saved = localStorage.getItem('pxzero-theme');
+    if (saved) setTheme(saved);
+    else setTheme('dark');
+
+    btnDark.addEventListener('click', () => setTheme('dark'));
+    btnLight.addEventListener('click', () => setTheme('light'));
+
+    const scrollBtn = document.getElementById('scrollTop');
     window.addEventListener('scroll', () => {
-      btn.classList.toggle('visible', window.scrollY > 300);
+      scrollBtn.classList.toggle('visible', window.scrollY > 300);
     });
-    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   </script>
 </body>
 </html>
